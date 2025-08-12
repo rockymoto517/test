@@ -10,7 +10,9 @@ jobs:
     steps:
       - name: Download stylua
         run: |
-          ./.github/download_stylua
+          curl -Lo "stylua.zip" "https://github.com/JohnnyMorganz/StyLua/releases/download/v2.1.0/stylua-linux-x86_64.zip"
+          unzip stylua.zip
+          rm stylua.zip
       - name: Format code and store error log
         id: codeFormatting
         run: |
