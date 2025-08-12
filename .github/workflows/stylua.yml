@@ -1,0 +1,31 @@
+name: Stylua
+on:
+  push:
+    branches:
+  workflow_dispatch:
+
+jobs:
+  format_lua:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download stylua
+        run: |
+          ./.github/download_stylua
+      - name: Format code and store error log
+        id: codeFormatting
+        run: |
+          stylua --config-path ./.github/stylua.toml -g "*.lua" &. stylua.log
+      - name: Archive error log
+        uses: actions/upload-artifact@v4
+        if: failure() && steps.codeFormatting.outcome == 'failure'
+        with:
+          name: stylua_log
+          path: |
+            stylua.log
+      - uses: EndBug/add-and-commit@v9
+        if: success() && steps.codeFormatting.outcome == 'success'
+        with:
+          add: "*.lua"
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          message: Code formatting
