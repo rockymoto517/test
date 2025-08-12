@@ -8,6 +8,8 @@ jobs:
   format_lua:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@main
       - name: Download stylua
         run: |
           curl -Lo "stylua.zip" "https://github.com/JohnnyMorganz/StyLua/releases/download/v2.1.0/stylua-linux-x86_64.zip"
